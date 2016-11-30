@@ -1,0 +1,23 @@
+.tabs {
+    display: flex;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+nav.nav-extended .nav-wrapper {
+    height: 64px;
+}
+
+.tabs {
+    height: 64px;
+}
+
+.tabs .tab {
+    line-height: 64px;
+}
+
+.brand-logo {
+    margin-left: 16px;
+}
