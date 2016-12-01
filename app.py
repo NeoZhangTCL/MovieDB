@@ -1,12 +1,61 @@
-from flask import Flask, render_template, request
+from flask import  Flask, render_template, redirect, url_for, request
 import mysql.connector
 
 app = Flask(__name__)
+user = None
+
 
 @app.route("/")
-def hello():
-    tag = "User"
-    return render_template('index.html',user_tag=tag)
+def main():
+    return render_template('index.html', user_tag='User')
+
+def renderMovie():
+    pass
+
+def renderTheatre():
+    pass
+
+def renderUser():
+    pass
+
+@app.route('/login', methods=["POST"])
+def login():
+    cnx = mysql.connector.connect(
+        user='root', password='pass', database='MovieTheatre')
+    cursor = cnx.cursor(buffered=True)
+    email = request.form['email']
+    name = request.form['user_name']
+    login_query = (
+        "SELECT FirstName, LastName FROM Customer WHERE EmailAddress = '" + email + "' "
+    )
+    cursor.execute(login_query)
+    # change the return stuff to list
+    user_info = list(sum(cursor.fetchall(), ()))
+    if len(user_info) == 0:
+        cnx.commit()
+        cnx.close()
+        error = 'Name and Email does not much.'
+        return  render_template('index.html', error=error, user_tag='User')
+    else:
+        fullname = user_info[0] + ' ' + user_info[1]
+        if name != fullname :
+            cnx.commit()
+            cnx.close()
+            error = 'Name and Email does not much.'
+            return  render_template('index.html', error=error, user_tag='User')
+        else:
+            cnx.commit()
+            cnx.close()
+            return  render_template('index.html', user_tag=name)
+
+@app.route('/user/<username>')
+def user(username):
+    pass
+
+@app.route('/user/admin')
+def admin():
+    pass
+
 
 
 if __name__ == "__main__":

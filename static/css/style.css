@@ -21,3 +21,7 @@ nav.nav-extended .nav-wrapper {
 .brand-logo {
     margin-left: 16px;
 }
+
+.card {
+    margin: 0;
+}
