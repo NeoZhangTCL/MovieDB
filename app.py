@@ -7,10 +7,17 @@ user = None
 
 @app.route("/")
 def main():
+    renderMovie()
     return render_template('index.html', user_tag='User')
 
 def renderMovie():
-    pass
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cursor = cnx.cursor()
+    query = ("SELECT * FROM Movie")
+    cursor.execute(query)
+    movies=cursor.fetchall()
+    cnx.close()
+    return render_template('pages/movie.html', movies=movies)
 
 def renderTheatre():
     pass
@@ -55,6 +62,7 @@ def user(username):
 @app.route('/user/admin')
 def admin():
     pass
+
 
 
 
