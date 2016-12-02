@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+{% block body %}
+<h1>Movie</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <form action="/movie/idMovie" method="post">
+                    <input id="movieSortByID" type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movie">
+                <form action="/movie/MovieName" method="post">
+                    <input id="movieSortByName" type="submit" value="Movie">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="year">
+                <form action="/movie/MovieYear" method="post">
+                    <input id="movieSortByYear" type="submit" value="Relased Year">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td>{{ movie.0 }}</td>
+                <td style="text-indent:3em">{{ movie.1 }}</td>
+                <td style="text-indent:3em">{{ movie.2 }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

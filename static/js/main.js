@@ -1,5 +1,25 @@
+$("#gender").on('input propertychange paste', function() {
+    value = $(this).val();
+    value = value.slice(0,1).toUpperCase();
+    if (value == 'M' || value == 'F'){
+        $(this).val(value);
+    }
+    else{
+        $(this).val('');
+    }
+});
 
-$(document).ready(function(){
-  $('.collapsible').collapsible();
-  $('.carousel.carousel-slider').carousel({full_width: true});
+$("#first_name").on('input propertychange paste', function() {
+    value = $(this).val();
+    $(this).val(value.slice(0,45));
+});
+
+$("#last_name").on('input propertychange paste', function() {
+    value = $(this).val();
+    $(this).val(value.slice(0,45));
+});
+
+$("#email_name").on('input propertychange paste', function() {
+    value = $(this).val();
+    $(this).val(value.slice(0,45));
 });

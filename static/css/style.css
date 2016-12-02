@@ -1,27 +1,53 @@
-.tabs {
-    display: flex;
+html, body, header, .view {
+    height: 100%;
+    color:#959799;
 }
 
-.spacer {
-    flex-grow: 1;
+input[type="submit"]
+{
+    background: transparent;
+    border: none;
+    padding1: 0;
+    color:#959799;
+    cursor: pointer;
 }
 
-nav.nav-extended .nav-wrapper {
-    height: 64px;
+input[type="submit"]:hover {
+    color: white;
 }
 
-.tabs {
-    height: 64px;
+input[type="button" i], input[type="submit" i], input[type="reset" i], input[type="file" i]::-webkit-file-upload-button, button {
+    padding: 0;
 }
 
-.tabs .tab {
-    line-height: 64px;
+table {
+     border-collapse: separate;
 }
 
-.brand-logo {
-    margin-left: 16px;
+/* Navigation*/
+
+.navbar {
+    background-color: transparent;
 }
 
-.card {
-    margin: 0;
+
+
+.top-nav-collapse {
+    background-color: #4285F4;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        background-color: #4285F4;
+    }
+}
+
+
+/*Intro*/
+.view {
+    background: url("http://mdbootstrap.com/images/regular/nature/img%20(54).jpg")no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }

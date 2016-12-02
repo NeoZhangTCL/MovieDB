@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+{% block body %}
+<h1>Showing</h1>
+<table>
+    <thead>
+        <tr>
+            <th data-field="id">
+                <form action="/showing/idShowing" method="post">
+                    <input id="showingSortByID" type="submit" value="ID">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="movie">
+                <form action="/showing/MovieName" method="post">
+                    <input id="showingSortByName" type="submit" value="Movie">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="date">
+                <form action="/showing/ShowingDateTime" method="post">
+                    <input id="showingSortByDate" type="submit" value="Date">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="room">
+                <form action="/showing/TheatreRoom_RoomNumber" method="post">
+                    <input id="showingSortByRoom" type="submit" value="Room">
+                </form>
+            </th>
+            <th style="text-indent:3em" data-field="price">
+                <form action="/showing/TicketPrice" method="post">
+                    <input id="showingSortByPrice" type="submit" value="Price">
+                </form>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for show in showings %}
+            <tr>
+                <td>{{ show.0 }}</td>
+                <td style="text-indent:3em">{{ show.6 }}</td>
+                <td style="text-indent:3em">{{ show.1 }}</td>
+                <td style="text-indent:3em">{{ show.3 }}</td>
+                <td style="text-indent:3em">{{ show.4 }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
