@@ -1,3 +1,5 @@
+
+
 $("#gender").on('input propertychange paste', function() {
     value = $(this).val();
     value = value.slice(0,1).toUpperCase();
@@ -22,4 +24,8 @@ $("#last_name").on('input propertychange paste', function() {
 $("#email_name").on('input propertychange paste', function() {
     value = $(this).val();
     $(this).val(value.slice(0,45));
+});
+
+$("tr").click(function(){
+  window.location = "#";
 });

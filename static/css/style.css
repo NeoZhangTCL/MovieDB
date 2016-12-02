@@ -30,8 +30,6 @@ table {
     background-color: transparent;
 }
 
-
-
 .top-nav-collapse {
     background-color: #4285F4;
 }
@@ -42,6 +40,13 @@ table {
     }
 }
 
+.modal-content .dialoge{
+    align-items: center;
+    height: auto;
+    flex-direction:column;
+    width:360px;
+    margin: 24px;
+}
 
 /*Intro*/
 .view {
@@ -50,4 +55,9 @@ table {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+tr:hover{
+    cursor: pointer;
+    color: white;
 }
