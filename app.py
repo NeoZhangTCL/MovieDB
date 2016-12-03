@@ -50,19 +50,13 @@ def register():
     email = request.form['email']
     gender = request.form['gender']
     query = (
-        "insert ignore into Customer values(0, '" + fName + "', '" +
-                                            lName + "', '" + email + "', '" + gender + "',0);"
+        "insert ignore into Customer values(0, '" + fName + "', '" + lName + "', '" + email + "', '" + gender + "',0);"
     )
     print(query)
     sqlSetter(query)
     user = fName + ' ' + lName
     return render_template('user.html', fullname=user, tag=user)
 
-
-@app.route('/user/<username>')
-def userPage(username):
-    global user
-    return render_template('user.html', fullname=user, tag=user)
 
 ###################################################
 
@@ -223,6 +217,28 @@ def showingShow():
 
 ###################################################
 
+@app.route('/<username>')
+def userPage(username):
+    global user
+    nList = user.split(' ')
+    data = (nList[0], nList[1])
+    query = (
+        "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
+    )
+    profile = sqlGetter1(query, data)
+    sex = list(sum(profile, ()))[4].decode("utf-8") 
+    print(sex)
+    query = (
+        "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
+        "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
+        "left outer join Showing s on a.Showing_idShowing=s.idShowing "
+        "left outer join Movie m on s.Movie_idMovie=m.idMovie "
+        "where FirstName=%s and LastName=%s"
+    )
+    history = sqlGetter1(query, data)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+
+###################################################
 
 def isAdmin():
     global user, isAdmin
