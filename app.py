@@ -52,7 +52,6 @@ def register():
     query = (
         "insert ignore into Customer values(0, '" + fName + "', '" + lName + "', '" + email + "', '" + gender + "');"
     )
-    print(query)
     sqlSetter(query)
     user = fName + ' ' + lName
     return redirect(url_for('userPage', username=user))
