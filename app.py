@@ -50,12 +50,12 @@ def register():
     email = request.form['email']
     gender = request.form['gender']
     query = (
-        "insert ignore into Customer values(0, '" + fName + "', '" + lName + "', '" + email + "', '" + gender + "',0);"
+        "insert ignore into Customer values(0, '" + fName + "', '" + lName + "', '" + email + "', '" + gender + "');"
     )
     print(query)
     sqlSetter(query)
     user = fName + ' ' + lName
-    return render_template('user.html', fullname=user, tag=user)
+    return redirect(url_for('userPage', username=user))
 
 
 ###################################################
@@ -63,7 +63,7 @@ def register():
 
 @app.route('/user/admin')
 def admin():
-    pass
+    64337909
 
 
 @app.route("/movie")
@@ -102,7 +102,7 @@ def movieRemove():
         "DELETE FROM Movie WHERE idMovie=" + mID + " AND MovieName='" + mName + "';"
     )
     sqlSetter(query)
-    return redirect(url_for('moviePage'))
+    return redirect(url_for('moviePage', username=mName))
 
 
 @app.route('/movie/editMovie', methods=["POST"])
@@ -115,7 +115,7 @@ def movieEdit():
             mName + "' WHERE idMovie = '" + mID + "';"
     )
     sqlSetter(query)
-    return redirect(url_for('moviePage'))
+    return redirect(url_for('moviePage',username=mName))
 
 ###################################################
 
@@ -226,7 +226,7 @@ def userPage(username):
         "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
     )
     profile = sqlGetter1(query, data)
-    sex = list(sum(profile, ()))[4].decode("utf-8") 
+    sex = list(sum(profile, ()))[4].decode("utf-8")
     print(sex)
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
@@ -251,7 +251,7 @@ def isAdmin():
     return (boo == True)
 
 def sqlGetter(query):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     res = cursor.fetchall()
@@ -260,14 +260,14 @@ def sqlGetter(query):
     return res
 
 def sqlSetter(query):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     cnx.commit()
     cnx.close()
 
 def sqlGetter1(query, data):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     res = cursor.fetchall()
@@ -276,7 +276,7 @@ def sqlGetter1(query, data):
     return res
 
 def sqlSetter1(query, data):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     cnx.commit()
