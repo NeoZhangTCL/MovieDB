@@ -125,11 +125,11 @@
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="showing/buyticket" method="post">
+            <form action="showing/purchaseTicket" method="post">
                 <div class="modal-body">
                     Showing to buy:
                     <br><br>
-                    <select name="showingtobuy">
+                    <select name="showingToPurchase">
                         {% for show in showings %}
                            <option value={{show.0}}>{{show.6 + '  ' + show.1|string}}</option>
                        {% endfor %}
@@ -137,14 +137,14 @@
                     <br><br>
                     Buy for:
                     <br><br>
-                    <select name="showingbuyfor">
+                    <select name="purchaseCustomer">
                         {% for customer in customers %}
                            <option value={{customer.0}}>{{customer.1 + ' ' + customer.2}}</option>
                        {% endfor %}
                     </select>
                     <br><br>
                     <div class="md-form">
-                        <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
+                        <input type="text" id="showingPrice" class="form-control" name="purchasePrice" value="{{request.form.showingPrice}}">
                         <label for="showingPrice">Confirm the price</label>
                     </div>
                     <div class="text-xs-center">

@@ -144,10 +144,11 @@
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="<user>/Addrating" method="post">
+            <form action="<user>/addRating" method="post">
+                <input name="customerId" type="hidden" value = "{{fullname}}" />
                 <div class="modal-body">
                     Showing:
-                    <select name="showingToRating">
+                    <select name="showingToRate">
                        {% for item in history %}
                             {% if item.2 %}
                            <option value={{item.0}}>{{item.1 + ' ' + item.2|string }}</option>
@@ -157,10 +158,10 @@
                     <br><br>
                     <div class="md-form">
                         <input type="text" id="rating" class="form-control" name="rating" value="{{request.form.rating}}">
-                        <label for="rating">Shwoing Rating</label>
+                        <label for="rating">Showing Rating</label>
                     </div>
                     <div class="text-xs-center">
-                        <button class="btn btn-unique" type="submit">RATING</button>
+                        <button class="btn btn-unique" type="submit">RATE</button>
                     </div>
                 </div>
             </form>
@@ -227,8 +228,12 @@
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="admit/addUser" method="post">
+            <form action="admin/addUser" method="post">
                 <div class="modal-body">
+                    <div class="md-form">
+                        <input name="customer_id" id="customer_id" type="text" value="{{request.form.customer_id }}">
+                        <label for="customer_id">Customer ID</label>
+                    </div>
                     <div class="md-form">
                         <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
                         <label for="first_name">First Name</label>
@@ -264,15 +269,15 @@
             <form action="admin/removeUser" method="post">
             <div class="modal-body">
                 Select the account to delete:
-                <select name="userToRemove">
+                <select name="customer_id">
                 {% for customer in customers %}
                     <option value={{customer.0}}>{{customer.0|string + ' ' + customer.1 + ' ' + customer.2}}</option>
                 {% endfor %}
                 </select>
                 <br><br>
                 <div class="md-form">
-                    <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
-                    <label for="movieID">Put Customer ID to confirm</label>
+                    <input type="text" id="customerID" class="form-control" name="customerId" value="{{request.form.customerId}}">
+                    <label for="customerId">Put Customer ID to confirm</label>
                 </div>
                 <div class="text-xs-center">
                     <button class="btn btn-unique" type="submit">REMOVE</button>
@@ -295,7 +300,7 @@
             <form action="admin/editUser" method="post">
                 <div class="modal-body">
                     Select the account to edit:
-                    <select name="userToEdit">
+                    <select name="userId">
                     {% for customer in customers %}
                         <option value={{customer.0}}>{{customer.0|string}}</option>
                     {% endfor %}

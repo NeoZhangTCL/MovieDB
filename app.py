@@ -29,12 +29,12 @@ def login():
     # change the return stuff to list
     user_info = list(sum(sqlGetter(query), ()))
     if len(user_info) == 0:
-        error = 'Name and Email does not much.'
+        error = 'Name and Email does not match.'
         return render_template('login.html', error=error, tag=user)
     else:
         fullname = user_info[0] + ' ' + user_info[1]
         if name != fullname:
-            error = 'Name and Email does not much.'
+            error = 'Name and Email does not match.'
             return render_template('login.html', error=error, tag=user)
         else:
             user = fullname
@@ -212,7 +212,33 @@ def showingShow():
         sqlSetter1(query, data)
         return redirect(url_for('showingPage'))
 
+#need to have a visual queue for the user that purchase was successful
+@app.route('/showing/purchaseTicket', methods=["POST"])
+def purchaseTicket():
+    try:
+        data = (request.form["purchaseCustomer"], request.form["showingToPurchase"], request.form["purchasePrice"])
+        query = ("INSERT INTO Attend (Customer_idCustomer, Showing_idShowing, Rating) VALUES (%s, %s, %s)")
+        sqlSetter1(query, data)
+        return redirect(url_for("showingPage"))
+    except Exception as error:
+        return str(error)
+
 ###################################################
+#need to let the user know it was successful
+@app.route('/<username>/addRating', methods=["POST"])
+def addRating(username):
+    try:
+        global user
+        userData = request.form.get("customerId", 'default value')
+        usernameQuery = ("SELECT idCustomer FROM Customer WHERE FirstName=%s AND LastName=%s")
+        data = (userData.split(" ")[0], userData.split(" ")[1])
+        userId = sqlGetter1(usernameQuery, data)[0][0]
+        data = (request.form["rating"], str(userId), request.form["showingToRate"])
+        query = ("UPDATE Attend SET Rating=%s where Customer_idCustomer=%s AND Showing_idShowing=%s")
+        sqlSetter1(query, data)
+        return redirect(url_for('userPage', username=user))
+    except Exception as error:
+        return str(error)
 
 @app.route('/<username>')
 def userPage(username):
@@ -325,7 +351,41 @@ def userSortByRating(username):
     history = sqlGetter1(query, data)
     return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
 ###################################################
+#admin user
 
+@app.route('/admin/addUser', methods=["POST"])
+def adminAddUser():
+    try:
+        global user
+        data = (request.form["customer_id"], request.form["first_name"], request.form["last_name"], request.form["email"], request.form["gender"])
+        query = ("INSERT INTO Customer (idCustomer, FirstName, LastName, EmailAddress, Sex) VALUES (%s, %s, %s, %s, %s)")
+        sqlSetter1(query, data)
+        return redirect(url_for('userSortById'), "Super User")
+    except Exception as error:
+        return str(error)
+
+@app.route('/admin/removeUser', methods=["POST"])
+def adminRemoveUser():
+    try:
+        global user
+        data = (request.form["customer_id"])
+        query = ("DELETE FROM Customer where idCustomer=%s")
+        sqlSetter1(query, (data,))
+        return redirect(url_for('userSortById'), "Super User")
+    except Exception as error:
+        return str(error)
+
+@app.route('/admin/editUser')
+def adminEditUser():
+    try:
+        global user
+        data = (request.form["first_name"], request.form["last_name"], request.form["email"], request.form["gender"], request.form["userId"])
+        query = ("Update Customer SET FirstName = %s, LastName = %s, EmailAddress=%s, Sex=%s where idCustomer = %s")
+        sqlSetter1(query, data)
+        return redirect(url_for('userSortById'), "Super User")
+    except Exception as error:
+        return str(error)
+###################################################
 def isAdmin():
     global user, isAdmin
     fName = user.split(' ')[0]
@@ -337,7 +397,7 @@ def isAdmin():
     return (boo == True)
 
 def sqlGetter(query):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     res = cursor.fetchall()
@@ -346,14 +406,14 @@ def sqlGetter(query):
     return res
 
 def sqlSetter(query):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     cnx.commit()
     cnx.close()
 
 def sqlGetter1(query, data):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     res = cursor.fetchall()
@@ -362,7 +422,7 @@ def sqlGetter1(query, data):
     return res
 
 def sqlSetter1(query, data):
-    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     cnx.commit()
