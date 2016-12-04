@@ -408,13 +408,31 @@ def roomPage():
     return render_template('room.html',rooms=rooms, tag=user)
 
 @app.route('/room/addRoom', methods=["POST"])
-def adminAddRoom(): pass
+def adminAddRoom():
+    query = (
+        "INSERT IGNORE INTO TheatreRoom VALUES (%s, %s)"
+    )
+    data = (request.form["roomNo"], request.form["capacity"] )
+    sqlSetter1(query, data)
+    return redirect('roomPage')
 
 @app.route('/room/removeRoom', methods=["POST"])
-def adminRemoveRoom(): pass
+def adminRemoveRoom():
+    query = (
+         "DELETE FROM TheatreRoom WHERE RoomNumber=%s"
+    )
+    data = (request.form["roomNo"],)
+    sqlSetter1(query,data)
+    return redirect('roomPage')
 
 @app.route('/room/editRoom', methods=["POST"])
-def adminEditRoom(): pass
+def adminEditRoom():
+    query = (
+         "UPDATE TheatreRoom SET Capacity=%s WHERE RoomNumber=%s"
+    )
+    data = (request.form["capacity"],request.form["roomNo"])
+    sqlSetter1(query,data)
+    return redirect('roomPage')
 
 ###################################################
 @app.route('/attend')

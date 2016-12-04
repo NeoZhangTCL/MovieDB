@@ -7,10 +7,10 @@
     <thead>
         <tr>
             <th data-field="RoomNo">
-                <input id="showingSortByRoomNo" type="submit" value="Room No.">
+                <input id="RoomNo" type="submit" value="Room No.">
             </th>
             <th data-field="Capacity" style="text-indent:3em">
-                <input id="showingSortByCapacity" type="submit" value="Capacity">
+                <input id="Capacity" type="submit" value="Capacity">
             </th>
         </tr>
     </thead>
@@ -75,7 +75,7 @@
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="showing/removeShow" method="post">
+            <form action="room/removeRoom" method="post">
                 <div class="modal-body">
                     SELECT THE ROOM TO REMOVE:
                     <select name="roomNo">
@@ -101,7 +101,7 @@
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="showing/editShow" method="post">
+            <form action="room/editRoom" method="post">
                 <div class="modal-body">
                     SELECT THE ROOM TO Edit:
                     <select name="roomNo">
