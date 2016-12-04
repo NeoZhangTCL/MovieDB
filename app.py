@@ -411,10 +411,10 @@ def adminRemoveGenre():
 @app.route('/genre/editGenreforMovie', methods=["POST"])
 def adminEditGenre():
     global user
-    query = ("SELECT Genre WHERE Genre=%s AND Movie_idMovie=%s")
-    data = (request.form["genreType"],request.form["movieID"],)
+    query = ("SELECT * FROM Genre WHERE Genre=%s AND Movie_idMovie=%s")
+    data = (request.form["genreType"],request.form["movieID"])
     rst = sqlGetter1(query,data)
-    if len(list(sum(sqlGetter(query), ()))) == 0:
+    if len(list(sum(rst, ()))) == 0:
         query = ("INSERT INTO Genre VALUES (%s, %s)")
         sqlSetter1(query,data)
     else:
