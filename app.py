@@ -255,8 +255,6 @@ def userSortById(username):
         "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
     )
     profile = sqlGetter1(query, data)
-    sex = list(sum(profile, ()))[4].decode("utf-8")
-    print(sex)
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
         "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
@@ -266,7 +264,7 @@ def userSortById(username):
         "ORDER BY m.idMovie"
     )
     history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
 
 @app.route('/<username>/name', methods=["POST"])
 def userSortByMovieName(username):
@@ -277,8 +275,6 @@ def userSortByMovieName(username):
         "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
     )
     profile = sqlGetter1(query, data)
-    sex = list(sum(profile, ()))[4].decode("utf-8")
-    print(sex)
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
         "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
@@ -288,7 +284,7 @@ def userSortByMovieName(username):
         "ORDER BY m.MovieName"
     )
     history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
 
 @app.route('/<username>/date', methods=["POST"])
 def userSortByDate(username):
@@ -299,8 +295,6 @@ def userSortByDate(username):
         "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
     )
     profile = sqlGetter1(query, data)
-    sex = list(sum(profile, ()))[4].decode("utf-8")
-    print(sex)
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
         "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
@@ -310,7 +304,7 @@ def userSortByDate(username):
         "ORDER BY s.ShowingDateTime"
     )
     history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
 
 @app.route('/<username>/rating', methods=["POST"])
 def userSortByRating(username):
@@ -321,7 +315,6 @@ def userSortByRating(username):
         "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
     )
     profile = sqlGetter1(query, data)
-    sex = list(sum(profile, ()))[4].decode("utf-8")
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
         "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
@@ -331,7 +324,7 @@ def userSortByRating(username):
         "ORDER BY a.Rating"
     )
     history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
 
 #need to let the user know it was successful
 @app.route('/<username>/addRating', methods=["POST"])
@@ -388,16 +381,47 @@ def adminEditUser():
 
 ###################################################
 @app.route('/genre')
-def genrePage(): pass
+def genrePage():
+    global user
+    query = ("select Genre, idMovie, MovieName from Genre g right outer join Movie m on g.Movie_idMovie=m.idMovie;")
+    genres = sqlGetter(query)
+    query = ("SELECT DISTINCT Genre FROM Genre")
+    genres1 = sqlGetter(query)
+    query = ("SELECT idMovie, MovieName FROM Movie")
+    movies = sqlGetter(query)
+    print(genres1)
+    return render_template('genre.html',genres=genres, genres1=genres1, movies=movies, tag=user)
 
-@app.route('/addGenre', methods=["POST"])
-def adminAddGenre(): pass
+@app.route('/genre/addGenre', methods=["POST"])
+def adminAddGenre():
+    global user
+    query = ("insert into Genre values (%s, %s)")
+    data = (request.form["genreName"],request.form["movieID"])
+    sqlSetter1(query,data)
+    return redirect(url_for('genrePage'))
 
-@app.route('/removeGenre', methods=["POST"])
-def adminRemoveGenre(): pass
+@app.route('/genre/removeGenre', methods=["POST"])
+def adminRemoveGenre():
+    global user
+    query = ("DELETE FROM Genre WHERE Genre=%s")
+    data = (request.form["genreType"],)
+    sqlSetter1(query,data)
+    return redirect(url_for('genrePage'))
 
-@app.route('/editGenre', methods=["POST"])
-def adminEditGenre(): pass
+@app.route('/genre/editGenreforMovie', methods=["POST"])
+def adminEditGenre():
+    global user
+    query = ("SELECT Genre WHERE Genre=%s AND Movie_idMovie=%s")
+    data = (request.form["genreType"],request.form["movieID"],)
+    rst = sqlGetter1(query,data)
+    if len(list(sum(sqlGetter(query), ()))) == 0:
+        query = ("INSERT INTO Genre VALUES (%s, %s)")
+        sqlSetter1(query,data)
+    else:
+        query = ("DELETE FROM Genre WHERE Genre=%s AND Movie_idMovie=%s")
+        sqlSetter1(query,data)
+    return redirect(url_for('genrePage'))
+
 
 ###################################################
 @app.route('/room')
@@ -414,7 +438,7 @@ def adminAddRoom():
     )
     data = (request.form["roomNo"], request.form["capacity"] )
     sqlSetter1(query, data)
-    return redirect('roomPage')
+    return redirect(url_for('roomPage'))
 
 @app.route('/room/removeRoom', methods=["POST"])
 def adminRemoveRoom():
@@ -423,7 +447,7 @@ def adminRemoveRoom():
     )
     data = (request.form["roomNo"],)
     sqlSetter1(query,data)
-    return redirect('roomPage')
+    return redirect(url_for('roomPage'))
 
 @app.route('/room/editRoom', methods=["POST"])
 def adminEditRoom():
@@ -432,7 +456,7 @@ def adminEditRoom():
     )
     data = (request.form["capacity"],request.form["roomNo"])
     sqlSetter1(query,data)
-    return redirect('roomPage')
+    return redirect(url_for('roomPage'))
 
 ###################################################
 @app.route('/attend')
