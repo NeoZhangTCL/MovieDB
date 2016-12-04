@@ -150,9 +150,9 @@ def showingSearch():
         "WHERE Genre = %s "
         "AND ShowingDateTime > %s "
         "AND ShowingDateTime < %s "
-        "AND MovieName = %s"
+        "AND MovieName like %s"
     )
-    data = (request.form['genre'], request.form['startDate'], request.form['endDate'], request.form['movieName'])
+    data = (request.form['genre'], request.form['startDate'], request.form['endDate'], '%' + request.form['movieName'] + '%')
     showings = sqlGetter1(query, data)
     query = ("SELECT DISTINCT Genre FROM Genre")
     genres = sqlGetter(query)
