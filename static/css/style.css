@@ -61,3 +61,7 @@ tr:hover{
     cursor: pointer;
     color: white;
 }
+
+a, a:hover {
+    color: white;
+}

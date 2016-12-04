@@ -71,7 +71,7 @@
             <!--Body-->
             <form action="/showing/search" method="POST">
                 <div class="modal-body">
-                    GENRE:
+                    Genre:
                     <select name="genre">
                        {% for tuple in genres %}
                          {% for genre in tuple %}
@@ -81,7 +81,7 @@
                     </select>
                     </br>
                     </br>
-                    START DATE:
+                    Start Date:
                     <select name="startDate">
                        {% for tuple in dates %}
                          {% for startDate in tuple %}
@@ -91,7 +91,7 @@
                     </select>
                     </br>
                     </br>
-                    END DATE:
+                    End Date:
                     <select name="endDate">
                        {% for tuple in dates %}
                          {% for endDate in tuple %}
@@ -105,7 +105,7 @@
                         <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
                         <label for="movieName">Movie Name</label>
                     </div>
-                    <input style="margin-left:40px;" type="checkbox" name="available" value="Available"> Available
+                    <input style="margin-left:18px;" type="checkbox" name="available" value="Available"> Available
                     </br>
                     <button style="position:relative; float:right; top:-36px;" type="submit" class="btn btn-unique waves-effect" value="Search">SEARCH</button>
                 </div>

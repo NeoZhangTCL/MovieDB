@@ -85,6 +85,15 @@
     <i class="fa fa-star-half-o" aria-hidden="true"></i>
     RATING</br>
 </span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+<a class="waves-light" href="{{ url_for('main') }}">
+    <i class="fa fa-external-link" aria-hidden="true"></i>
+    LOGOUT</br>
+</a>
+
 
 <!-- Modal Attend -->
 <div class="modal fade modal-ext" id="modal-attend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -108,7 +117,7 @@
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="showing/addShow" method="post">
+            <form action="<user>/Addrating" method="post">
                 <div class="modal-body">
                     Showing:
                     <select name="endDate">
@@ -131,5 +140,34 @@
     </div>
 </div>
 
+
+<!-- Modal EditAccount -->
+<div class="modal fade modal-ext" id="modal-rating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="<user>/Addrating" method="post">
+                <div class="modal-body">
+                    Showing:
+                    <select name="endDate">
+                       {% for item in history %}
+                           <option value={{attendShowing}}>{{item.1 + ' ' + item.2|string }}</option>
+                       {% endfor %}
+                    </select>
+                    <br><br>
+                    <div class="md-form">
+                        <input type="text" id="rating" class="form-control" name="rating" value="{{request.form.rating}}">
+                        <label for="rating">Shwoing Rating</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">RATING</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
 
 {% endblock %}
