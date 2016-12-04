@@ -34,6 +34,11 @@
                 <ul class="nav navbar-nav">
                     <li class="nav-item"><a class="nav-link" href={{ url_for( 'moviePage')}}>Movie <span class="sr-only">(current)</span></a></li>
                     <li class="nav-item"><a class="nav-link" href={{ url_for( 'showingPage')}}>Showing <span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'genrePage')}}>Genre <span class="sr-only">(current)</span></a></li>
+                    {% if tag=='Super User' %}
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'attendPage')}}>Attend <span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ url_for( 'roomPage')}}>Room <span class="sr-only">(current)</span></a></li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href={% if tag=='User' %}{{ url_for( 'main')}}{% else %}{{ url_for( 'userPage', username=tag)}}{% endif %}>
                             {{ tag }}

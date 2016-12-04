@@ -381,12 +381,64 @@ def adminEditUser():
         global user
         data = (request.form["first_name"], request.form["last_name"], request.form["email"], request.form["gender"], request.form["userId"])
         query = ("UPDATE Customer SET FirstName=%s, LastName=%s, EmailAddress=%s, Sex=%s WHERE idCustomer = %s")
-        print(query)
-        print(data)
         sqlSetter1(query, data)
         return redirect(url_for('userPage', username='Super User'))
     except Exception as error:
         return str(error)
+
+###################################################
+@app.route('/genre')
+def genrePage(): pass
+
+@app.route('/addGenre', methods=["POST"])
+def adminAddGenre(): pass
+
+@app.route('/removeGenre', methods=["POST"])
+def adminRemoveGenre(): pass
+
+@app.route('/editGenre', methods=["POST"])
+def adminEditGenre(): pass
+
+###################################################
+@app.route('/room')
+def roomPage(): pass
+
+@app.route('/addRoom', methods=["POST"])
+def adminAddRoom(): pass
+
+@app.route('/removeRoom', methods=["POST"])
+def adminRemoveRoom(): pass
+
+@app.route('/editRoom', methods=["POST"])
+def adminEditRoom(): pass
+
+###################################################
+@app.route('/attend')
+def attendPage():
+    global user
+    query = (
+        "select idShowing, MovieName, ShowingDateTime, FirstName, LastName, Rating from "
+        "Attend a left outer join Customer c on a.Customer_idCustomer = c.idCustomer "
+        "left outer join Showing s on a.Showing_idShowing = s.idShowing "
+        "left outer join Movie m on s.Movie_idMovie = m.idMovie;"
+    )
+    attends = sqlGetter(query)
+    return render_template('attend.html', attends=attends, tag=user)
+
+@app.route('/attend/<attendKey>', methods=["POST"])
+def attendSortBy(attendKey):
+    global user
+    query = (
+        "select idShowing, MovieName, ShowingDateTime, FirstName, LastName, Rating from "
+        "Attend a left outer join Customer c on a.Customer_idCustomer = c.idCustomer "
+        "left outer join Showing s on a.Showing_idShowing = s.idShowing "
+        "left outer join Movie m on s.Movie_idMovie = m.idMovie "
+        "order by " + attendKey
+    )
+    attends = sqlGetter(query)
+    return render_template('attend.html', attends=attends, tag=user)
+
+
 ###################################################
 def isAdmin():
     global user, isAdmin
@@ -414,7 +466,7 @@ def sqlSetter(query):
     cnx.commit()
     cnx.close()
 
-def sqlGetter1(query, data):
+def sqlGetter1(query, data=None):
     cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
