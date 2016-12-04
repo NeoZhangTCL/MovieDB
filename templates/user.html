@@ -81,7 +81,7 @@
     <i class="fa fa-star-half-o" aria-hidden="true"></i>
     RATING</br>
 </span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+<span class="waves-light" data-toggle="modal" data-target="#modal-edit">
     <i class="fa fa-exchange" aria-hidden="true"></i>
     EDIT</br>
 </span>
@@ -92,7 +92,7 @@
 
 
 <!-- Modal Attend -->
-<div class="modal fade modal-ext" id="modal-attend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-attend" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px;">
         <!--Content-->
         <div class="modal-content" style="color:black">
@@ -108,7 +108,7 @@
 </div>
 
 <!-- Modal Rating -->
-<div class="modal fade modal-ext" id="modal-rating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-rating" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
@@ -138,23 +138,28 @@
 
 
 <!-- Modal EditAccount -->
-<div class="modal fade modal-ext" id="modal-rating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="<user>/Addrating" method="post">
+            <form action="<user>/editAccount" method="post">
                 <div class="modal-body">
-                    Showing:
-                    <select name="endDate">
-                       {% for item in history %}
-                           <option value={{attendShowing}}>{{item.1 + ' ' + item.2|string }}</option>
-                       {% endfor %}
-                    </select>
-                    <br><br>
                     <div class="md-form">
-                        <input type="text" id="rating" class="form-control" name="rating" value="{{request.form.rating}}">
-                        <label for="rating">Shwoing Rating</label>
+                        <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="last_name" id="last_name" type="text" value="{{request.form.last_name }}">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="email" id="email" type="email" value="{{request.form.email }}">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="gender" id="gender" type="text" value="{{request.form.gender }}">
+                        <label for="gender">Gender(M/F)</label>
                     </div>
                     <div class="text-xs-center">
                         <button class="btn btn-unique" type="submit">RATING</button>
