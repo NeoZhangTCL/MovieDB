@@ -486,16 +486,6 @@ def attendSortBy(attendKey):
 
 
 ###################################################
-def isAdmin():
-    global user, isAdmin
-    fName = user.split(' ')[0]
-    lName = user.split(' ')[1]
-    query = ("SELECT isAdmin FROM Customer WHERE FirstName='" + fName + "' AND LastName='" + lName + "';")
-    boo = list(sum( sqlGetter(query), ()))[0]
-    isAdmin = (boo == True)
-    print(isAdmin)
-    return (boo == True)
-
 def sqlGetter(query):
     cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
