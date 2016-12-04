@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block body %}
+
+{% for genre in genres%}
+<h1> {{ genre.0 }} </h1>
+<table>
+    <thead>
+        {% for genre in genres%}
+        <tr>
+            <th data-field="id">
+                <input id="showingSortByID" type="submit" value="{{ genre.0 }}">
+            </th>
+        </tr>
+        {% endfor %}
+    </thead>
+    <tbody>
+        {% for show in showings %}
+        <a href="#">
+            <tr>
+                <td>{{ show.0 }}</td>
+                <td style="text-indent:3em">{{ show.6 }}</td>
+                <td style="text-indent:3em">{{ show.1 }}</td>
+                <td style="text-indent:3em">{{ show.3 }}</td>
+                <td style="text-indent:3em">{{ show.4 }}</td>
+            </tr>
+        </a>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+{% endblock %}

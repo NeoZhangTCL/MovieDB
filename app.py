@@ -401,15 +401,19 @@ def adminEditGenre(): pass
 
 ###################################################
 @app.route('/room')
-def roomPage(): pass
+def roomPage():
+    global user
+    query = ("SELECT * FROM TheatreRoom")
+    rooms = sqlGetter(query)
+    return render_template('room.html',rooms=rooms, tag=user)
 
-@app.route('/addRoom', methods=["POST"])
+@app.route('/room/addRoom', methods=["POST"])
 def adminAddRoom(): pass
 
-@app.route('/removeRoom', methods=["POST"])
+@app.route('/room/removeRoom', methods=["POST"])
 def adminRemoveRoom(): pass
 
-@app.route('/editRoom', methods=["POST"])
+@app.route('/room/editRoom', methods=["POST"])
 def adminEditRoom(): pass
 
 ###################################################
