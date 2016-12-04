@@ -58,10 +58,6 @@ def register():
 
 ###################################################
 
-@app.route('/user/admin')
-def admin():
-    pass
-
 @app.route("/movie")
 def moviePage():
     global user
@@ -216,29 +212,16 @@ def showingShow():
 @app.route('/showing/purchaseTicket', methods=["POST"])
 def purchaseTicket():
     try:
-        data = (request.form["purchaseCustomer"], request.form["showingToPurchase"], request.form["purchasePrice"])
-        query = ("INSERT INTO Attend (Customer_idCustomer, Showing_idShowing, Rating) VALUES (%s, %s, %s)")
+        price = request.form["purchasePrice"]
+
+        data = (request.form["purchaseCustomer"], request.form["showingToPurchase"])
+        query = ("INSERT IGNORE INTO Attend VALUES (%s, %s, NULL)")
         sqlSetter1(query, data)
         return redirect(url_for("showingPage"))
     except Exception as error:
         return str(error)
 
 ###################################################
-#need to let the user know it was successful
-@app.route('/<username>/addRating', methods=["POST"])
-def addRating(username):
-    try:
-        global user
-        userData = request.form.get("customerId", 'default value')
-        usernameQuery = ("SELECT idCustomer FROM Customer WHERE FirstName=%s AND LastName=%s")
-        data = (userData.split(" ")[0], userData.split(" ")[1])
-        userId = sqlGetter1(usernameQuery, data)[0][0]
-        data = (request.form["rating"], str(userId), request.form["showingToRate"])
-        query = ("UPDATE Attend SET Rating=%s where Customer_idCustomer=%s AND Showing_idShowing=%s")
-        sqlSetter1(query, data)
-        return redirect(url_for('userPage', username=user))
-    except Exception as error:
-        return str(error)
 
 @app.route('/<username>')
 def userPage(username):
@@ -339,7 +322,6 @@ def userSortByRating(username):
     )
     profile = sqlGetter1(query, data)
     sex = list(sum(profile, ()))[4].decode("utf-8")
-    print(sex)
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
         "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
@@ -350,6 +332,24 @@ def userSortByRating(username):
     )
     history = sqlGetter1(query, data)
     return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+
+#need to let the user know it was successful
+@app.route('/<username>/addRating', methods=["POST"])
+def addRating(username):
+    try:
+        global user
+        userData = request.form.get("customerId", 'default value')
+        usernameQuery = ("SELECT idCustomer FROM Customer WHERE FirstName=%s AND LastName=%s")
+        data = (userData.split(" ")[0], userData.split(" ")[1])
+        userId = sqlGetter1(usernameQuery, data)[0][0]
+        data = (request.form["rating"], str(userId), request.form["showingToRate"])
+        query = ("UPDATE Attend SET Rating=%s where Customer_idCustomer=%s AND Showing_idShowing=%s")
+        sqlSetter1(query, data)
+        return redirect(url_for('userPage', username=user))
+    except Exception as error:
+        return str(error)
+
+
 ###################################################
 #admin user
 
@@ -360,7 +360,7 @@ def adminAddUser():
         data = (request.form["customer_id"], request.form["first_name"], request.form["last_name"], request.form["email"], request.form["gender"])
         query = ("INSERT INTO Customer (idCustomer, FirstName, LastName, EmailAddress, Sex) VALUES (%s, %s, %s, %s, %s)")
         sqlSetter1(query, data)
-        return redirect(url_for('userSortById'), "Super User")
+        return redirect(url_for('userPage', username='Super User'))
     except Exception as error:
         return str(error)
 
@@ -371,18 +371,20 @@ def adminRemoveUser():
         data = (request.form["customer_id"])
         query = ("DELETE FROM Customer where idCustomer=%s")
         sqlSetter1(query, (data,))
-        return redirect(url_for('userSortById'), "Super User")
+        return redirect(url_for('userPage', username='Super User'))
     except Exception as error:
         return str(error)
 
-@app.route('/admin/editUser')
+@app.route('/admin/editUser', methods=["POST"])
 def adminEditUser():
     try:
         global user
         data = (request.form["first_name"], request.form["last_name"], request.form["email"], request.form["gender"], request.form["userId"])
-        query = ("Update Customer SET FirstName = %s, LastName = %s, EmailAddress=%s, Sex=%s where idCustomer = %s")
+        query = ("UPDATE Customer SET FirstName=%s, LastName=%s, EmailAddress=%s, Sex=%s WHERE idCustomer = %s")
+        print(query)
+        print(data)
         sqlSetter1(query, data)
-        return redirect(url_for('userSortById'), "Super User")
+        return redirect(url_for('userPage', username='Super User'))
     except Exception as error:
         return str(error)
 ###################################################
@@ -397,7 +399,7 @@ def isAdmin():
     return (boo == True)
 
 def sqlGetter(query):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     res = cursor.fetchall()
@@ -406,14 +408,14 @@ def sqlGetter(query):
     return res
 
 def sqlSetter(query):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     cnx.commit()
     cnx.close()
 
 def sqlGetter1(query, data):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     res = cursor.fetchall()
@@ -422,7 +424,7 @@ def sqlGetter1(query, data):
     return res
 
 def sqlSetter1(query, data):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     cnx.commit()
