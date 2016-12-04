@@ -81,9 +81,9 @@
     <i class="fa fa-star-half-o" aria-hidden="true"></i>
     RATING</br>
 </span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-edit">
+<span class="waves-light" data-toggle="modal" data-target="#modal-selfedit">
     <i class="fa fa-exchange" aria-hidden="true"></i>
-    EDIT</br>
+    SELF EDIT</br>
 </span>
 <a class="waves-light" href="{{ url_for('main') }}">
     <i class="fa fa-external-link" aria-hidden="true"></i>
@@ -138,12 +138,12 @@
 
 
 <!-- Modal EditAccount -->
-<div class="modal fade modal-ext" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-selfedit" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="<user>/editAccount" method="post">
+            <form action="<user>/selfeditAccount" method="post">
                 <div class="modal-body">
                     <div class="md-form">
                         <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
