@@ -223,8 +223,10 @@ def userPage(username):
         "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
     )
     profile = sqlGetter1(query, data)
-    sex = list(sum(profile, ()))[4].decode("utf-8")
-    print(sex)
+    query = (
+        "SELECT * FROM Customer WHERE NOT (FirstName='Super' AND LastName='User')"
+    )
+    customers = sqlGetter(query)
     query = (
         "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
         "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
@@ -233,7 +235,7 @@ def userPage(username):
         "where FirstName=%s and LastName=%s"
     )
     history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, sex=sex, history=history)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, customers=customers, history=history)
 
 @app.route('/<username>/id', methods=["POST"])
 def userSortById(username):

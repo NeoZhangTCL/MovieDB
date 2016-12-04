@@ -52,6 +52,8 @@
 
 
 {% block operator %}
+
+{% if tag!='Super User' %}
 <span class="waves-light" data-toggle="modal" data-target="#modal-search">
     <i class="fa fa-search" aria-hidden="true"></i>
     SEARCH</br>
@@ -60,18 +62,7 @@
     <i class="fa fa-check" aria-hidden="true"></i>
     BUY TICKET</br>
 </span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-add">
-    <i class="fa fa-plus" aria-hidden="true"></i>
-    ADD</br>
-</span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
-    <i class="fa fa-remove" aria-hidden="true"></i>
-    REMOVE</br>
-</span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
-    <i class="fa fa-exchange" aria-hidden="true"></i>
-    EDIT</br>
-</span>
+
 
 
 <!--############################################################################################ -->
@@ -166,6 +157,20 @@
     </div>
 </div>
 
+{% else %}
+
+<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
 
 <!-- Modal Add -->
 <div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
@@ -265,5 +270,7 @@
         <!--/.Content-->
     </div>
 </div>
+
+{% endif %}
 
 {% endblock %}

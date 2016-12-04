@@ -1,7 +1,12 @@
 {% extends "index.html" %}
+
+
 {% block title %}Hello, {{ fullname }}{% endblock %}
+
+
 {% block body %}
 
+{% if tag!='Super User'%}
 <h1>Info</h1>
 <table>
     <thead>
@@ -26,7 +31,7 @@
             <td>{{ profile.0.0 }}</td>
             <td style="text-indent:3em">{{ profile.0.1 + ' ' + profile.0.2}}</td>
             <td style="text-indent:3em">{{ profile.0.3 }}</td>
-            <td style="text-indent:3em">{{ sex }}</td>
+            <td style="text-indent:3em">{{ profile.0.4.decode("ascii") }}</td>
         </tr>
         </a>
     </tbody>
@@ -71,11 +76,41 @@
         {% endfor %}
     </tbody>
 </table>
+
+{% else %}
+<h1>Customer</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th style="text-indent:3em">Name</th>
+            <th style="text-indent:3em">Date</th>
+            <th style="text-indent:3em">Sex</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+        <a href="#">
+        <tr>
+            <td>{{ customer.0 }}</td>
+            <td style="text-indent:3em">{{ customer.1 + ' ' + customer.2}}</td>
+            <td style="text-indent:3em">{{ customer.3 }}</td>
+            <td style="text-indent:3em">{{ customer.4.decode("ascii") }}</td>
+        </tr>
+        {% endfor %}
+        </a>
+    </tbody>
+</table>
+
+{% endif %}
+
 {% endblock %}
 
 
 
 {% block operator %}
+
+{% if tag!='Super User'%}
 
 <span class="waves-light" data-toggle="modal" data-target="#modal-rating">
     <i class="fa fa-star-half-o" aria-hidden="true"></i>
@@ -83,12 +118,8 @@
 </span>
 <span class="waves-light" data-toggle="modal" data-target="#modal-selfedit">
     <i class="fa fa-exchange" aria-hidden="true"></i>
-    EDIT YOUR ACCOUNTS</br>
+    EDIT YOUR ACCOUNT</br>
 </span>
-<a class="waves-light" href="{{ url_for('main') }}">
-    <i class="fa fa-external-link" aria-hidden="true"></i>
-    LOGOUT</br>
-</a>
 
 
 <!-- Modal Attend -->
@@ -118,7 +149,9 @@
                     Showing:
                     <select name="endDate">
                        {% for item in history %}
+                            {% if item.2 %}
                            <option value={{item.0}}>{{item.1 + ' ' + item.2|string }}</option>
+                           {% endif %}
                        {% endfor %}
                     </select>
                     <br><br>
@@ -170,5 +203,112 @@
         <!--/.Content-->
     </div>
 </div>
+
+{% else %}
+
+
+<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    ADD</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+    <i class="fa fa-remove" aria-hidden="true"></i>
+    REMOVE</br>
+</span>
+<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+    <i class="fa fa-exchange" aria-hidden="true"></i>
+    EDIT</br>
+</span>
+
+
+<!-- Modal Add -->
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="movie/addMovie" method="post">
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" id="movieName" class="form-control"  name="movieName" value="{{request.form.movieName}}">
+                    <label for="movieName">Movie Name</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="relaseYear" class="form-control"  name="relaseYear" value="{{request.form.relaseYear}}">
+                    <label for="relaseYear">Relased Year</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">ADD</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!-- Modal Remove -->
+<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="movie/removeMovie" method="post">
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                    <label for="movieName">Movie Name</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
+                    <label for="movieID">Movie ID</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">REMOVE</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!-- Modal Modify -->
+<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="movie/editMovie" method="post">
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
+                    <label for="movieID">Movie ID</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                    <label for="movieName">Movie Name</label>
+                </div>
+                <div class="md-form">
+                    <input type="text" id="relaseYear" class="form-control" name="relaseYear" value="{{request.form.relaseYear}}">
+                    <label for="relaseYear">Relased Year</label>
+                </div>
+                <div class="text-xs-center">
+                    <button class="btn btn-unique" type="submit">MODIFY</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+{% endif %}
+<a class="waves-light" href="{{ url_for('main') }}">
+    <i class="fa fa-external-link" aria-hidden="true"></i>
+    LOGOUT</br>
+</a>
 
 {% endblock %}
