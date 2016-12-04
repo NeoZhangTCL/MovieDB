@@ -147,7 +147,7 @@
             <form action="<user>/Addrating" method="post">
                 <div class="modal-body">
                     Showing:
-                    <select name="endDate">
+                    <select name="showingToRating">
                        {% for item in history %}
                             {% if item.2 %}
                            <option value={{item.0}}>{{item.1 + ' ' + item.2|string }}</option>
@@ -207,40 +207,48 @@
 {% else %}
 
 
-<span class="waves-light" data-toggle="modal" data-target="#modal-add">
+<span class="waves-light" data-toggle="modal" data-target="#modal-addUser">
     <i class="fa fa-plus" aria-hidden="true"></i>
     ADD</br>
 </span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-remove">
+<span class="waves-light" data-toggle="modal" data-target="#modal-removeUser">
     <i class="fa fa-remove" aria-hidden="true"></i>
     REMOVE</br>
 </span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-modify">
+<span class="waves-light" data-toggle="modal" data-target="#modal-editUser">
     <i class="fa fa-exchange" aria-hidden="true"></i>
     EDIT</br>
 </span>
 
 
 <!-- Modal Add -->
-<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-addUser" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="movie/addMovie" method="post">
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" id="movieName" class="form-control"  name="movieName" value="{{request.form.movieName}}">
-                    <label for="movieName">Movie Name</label>
+            <form action="admit/addUser" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="last_name" id="last_name" type="text" value="{{request.form.last_name }}">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="email" id="email" type="email" value="{{request.form.email }}">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="gender" id="gender" type="text" value="{{request.form.gender }}">
+                        <label for="gender">Gender(M/F)</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
                 </div>
-                <div class="md-form">
-                    <input type="text" id="relaseYear" class="form-control"  name="relaseYear" value="{{request.form.relaseYear}}">
-                    <label for="relaseYear">Relased Year</label>
-                </div>
-                <div class="text-xs-center">
-                    <button class="btn btn-unique" type="submit">ADD</button>
-                </div>
-            </div>
             </form>
         </div>
         <!--/.Content-->
@@ -248,20 +256,23 @@
 </div>
 
 <!-- Modal Remove -->
-<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-removeUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="movie/removeMovie" method="post">
+            <form action="admin/removeUser" method="post">
             <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
-                    <label for="movieName">Movie Name</label>
-                </div>
+                Select the account to delete:
+                <select name="userToRemove">
+                {% for customer in customers %}
+                    <option value={{customer.0}}>{{customer.0|string + ' ' + customer.1 + ' ' + customer.2}}</option>
+                {% endfor %}
+                </select>
+                <br><br>
                 <div class="md-form">
                     <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
-                    <label for="movieID">Movie ID</label>
+                    <label for="movieID">Put Customer ID to confirm</label>
                 </div>
                 <div class="text-xs-center">
                     <button class="btn btn-unique" type="submit">REMOVE</button>
@@ -274,31 +285,43 @@
 </div>
 
 
-<!-- Modal Modify -->
-<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<!-- Modal EditallAccount -->
+<div class="modal fade modal-ext" id="modal-editUser" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="movie/editMovie" method="post">
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" id="movieID" class="form-control" name="movieID" value="{{request.form.movieID}}">
-                    <label for="movieID">Movie ID</label>
+            <form action="admin/editUser" method="post">
+                <div class="modal-body">
+                    Select the account to edit:
+                    <select name="userToEdit">
+                    {% for customer in customers %}
+                        <option value={{customer.0}}>{{customer.0|string}}</option>
+                    {% endfor %}
+                    </select>
+                    <br><br>
+                    <div class="md-form">
+                        <input name="first_name" id="first_name" type="text" value="{{request.form.first_name }}">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="last_name" id="last_name" type="text" value="{{request.form.last_name }}">
+                        <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="email" id="email" type="email" value="{{request.form.email }}">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="md-form">
+                        <input name="gender" id="gender" type="text" value="{{request.form.gender }}">
+                        <label for="gender">Gender(M/F)</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">EDIT</button>
+                    </div>
                 </div>
-                <div class="md-form">
-                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
-                    <label for="movieName">Movie Name</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="relaseYear" class="form-control" name="relaseYear" value="{{request.form.relaseYear}}">
-                    <label for="relaseYear">Relased Year</label>
-                </div>
-                <div class="text-xs-center">
-                    <button class="btn btn-unique" type="submit">MODIFY</button>
-                </div>
-            </div>
-        </form>
+            </form>
         </div>
         <!--/.Content-->
     </div>
