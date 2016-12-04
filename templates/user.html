@@ -118,7 +118,7 @@
                     Showing:
                     <select name="endDate">
                        {% for item in history %}
-                           <option value={{attendShowing}}>{{item.1 + ' ' + item.2|string }}</option>
+                           <option value={{item.0}}>{{item.1 + ' ' + item.2|string }}</option>
                        {% endfor %}
                     </select>
                     <br><br>

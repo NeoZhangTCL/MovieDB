@@ -77,7 +77,7 @@
 <!--############################################################################################ -->
 
 <!-- Modal Search -->
-<div class="modal fade modal-ext" id="modal-search" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-search" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px;">
         <!--Content-->
         <div class="modal-content" style="color:black">
@@ -128,9 +128,43 @@
     </div>
 </div>
 
+<!-- Modal Buy -->
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:120px">
+        <!--Content-->
+        <div class="modal-content" style="color:black">
+            <!--Body-->
+            <form action="showing/addShow" method="post">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
+                        <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
+                        <label for="showingRoom">Room</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
+                        <label for="showingPrice">Price</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
 
 <!-- Modal Add -->
-<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
@@ -164,7 +198,7 @@
 </div>
 
 <!-- Modal Remove -->
-<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-remove" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
@@ -191,7 +225,7 @@
 
 
 <!-- Modal Add -->
-<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-modify" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
