@@ -94,6 +94,7 @@
         <div class="modal-content" style="color:black">
             <!--Body-->
             <form action="/showing/search" method="POST">
+            GENRE:
              <select name="genre">
                {% for tuple in genres %}
                  {% for genre in tuple %}
@@ -147,15 +148,11 @@
                     <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
                 </div>
                 <div class="md-form">
-                    <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
-                    <label for="showingRoom">Room</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
-                    <label for="showingPrice">Price</label>
+                    <input type="text" id="showingRating" class="form-control" name="showingRating" value="{{request.form.showingRating}}">
+                    <label for="showingRating">Room</label>
                 </div>
                 <div class="text-xs-center">
-                    <button class="btn btn-unique" type="submit">ADD</button>
+                    <button class="btn btn-unique" type="submit">RATING</button>
                 </div>
             </div>
             </form>

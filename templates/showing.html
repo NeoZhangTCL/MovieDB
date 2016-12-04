@@ -1,5 +1,4 @@
-{% extends "index.html" %}
-{% block body %}
+{% extends "index.html" %} {% block body %}
 <h1>Showing</h1>
 <table>
     <thead>
@@ -33,7 +32,7 @@
     </thead>
     <tbody>
         {% for show in showings %}
-            <a href="#">
+        <a href="#">
             <tr>
                 <td>{{ show.0 }}</td>
                 <td style="text-indent:3em">{{ show.6 }}</td>
@@ -41,14 +40,11 @@
                 <td style="text-indent:3em">{{ show.3 }}</td>
                 <td style="text-indent:3em">{{ show.4 }}</td>
             </tr>
-            </a>
+        </a>
         {% endfor %}
     </tbody>
 </table>
-{% endblock %}
-
-
-{% block operator %}
+{% endblock %} {% block operator %}
 <span class="waves-light" data-toggle="modal" data-target="#modal-search">
     <i class="fa fa-search" aria-hidden="true"></i>
     SEARCH</br>
@@ -74,36 +70,46 @@
         <div class="modal-content" style="color:black">
             <!--Body-->
             <form action="/showing/search" method="POST">
-             <select name="genre">
-               {% for tuple in genres %}
-                 {% for genre in tuple %}
-                   <option value={{genre}}>{{genre}}</option>
-                 {% endfor %}
-               {% endfor %}
-             </select>
-             <br><br>
-             START DATE:
-             <select name="startDate">
-               {% for tuple in dates %}
-                 {% for startDate in tuple %}
-                   <option value={{startDate}}>{{startDate}}</option>
-                 {% endfor %}
-               {% endfor %}
-             </select>
-             END DATE:
-             <select name="endDate">
-               {% for tuple in dates %}
-                 {% for endDate in tuple %}
-                   <option value={{endDate}}>{{endDate}}</option>
-                 {% endfor %}
-               {% endfor %}
-             </select>
-             <br><br>
-             Movie Name: <input type="text" name="movieName">
-             <br><br>
-              <input type="checkbox" name="available" value="seats"> Available<br>
-             <input type="submit">
-           </form>
+                <div class="modal-body">
+                    GENRE:
+                    <select name="genre">
+                       {% for tuple in genres %}
+                         {% for genre in tuple %}
+                           <option value={{genre}}>{{genre}}</option>
+                         {% endfor %}
+                       {% endfor %}
+                    </select>
+                    </br>
+                    </br>
+                    START DATE:
+                    <select name="startDate">
+                       {% for tuple in dates %}
+                         {% for startDate in tuple %}
+                           <option value={{startDate}}>{{startDate}}</option>
+                         {% endfor %}
+                       {% endfor %}
+                    </select>
+                    </br>
+                    </br>
+                    END DATE:
+                    <select name="endDate">
+                       {% for tuple in dates %}
+                         {% for endDate in tuple %}
+                           <option value={{endDate}}>{{endDate}}</option>
+                         {% endfor %}
+                       {% endfor %}
+                    </select>
+                    </br>
+                    </br>
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <input style="margin-left:40px;" type="checkbox" name="available" value="Available"> Available
+                    </br>
+                    <button style="position:relative; float:right; top:-36px;" type="submit" class="btn btn-unique waves-effect" value="Search">SEARCH</button>
+                </div>
+            </form>
         </div>
         <!--/.Content-->
     </div>
@@ -117,27 +123,27 @@
         <div class="modal-content" style="color:black">
             <!--Body-->
             <form action="showing/addShow" method="post">
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
-                    <label for="movieName">Movie Name</label>
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
+                        <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
+                        <label for="showingRoom">Room</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
+                        <label for="showingPrice">Price</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">ADD</button>
+                    </div>
                 </div>
-                <div class="md-form">
-                    <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
-                    <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
-                    <label for="showingRoom">Room</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
-                    <label for="showingPrice">Price</label>
-                </div>
-                <div class="text-xs-center">
-                    <button class="btn btn-unique" type="submit">ADD</button>
-                </div>
-            </div>
             </form>
         </div>
         <!--/.Content-->
@@ -151,16 +157,16 @@
         <div class="modal-content" style="color:black">
             <!--Body-->
             <form action="showing/removeShow" method="post">
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" id="showingID" class="form-control" name="showingID" value="{{request.form.showingID}}">
-                    <label for="showingID">Showing ID</label>
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="showingID" class="form-control" name="showingID" value="{{request.form.showingID}}">
+                        <label for="showingID">Showing ID</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
                 </div>
-                <div class="md-form">
-                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
-                    <label for="movieName">Movie Name</label>
-                </div>
-            </div>
             </form>
         </div>
         <!--/.Content-->
@@ -175,31 +181,31 @@
         <div class="modal-content" style="color:black">
             <!--Body-->
             <form action="showing/editShow" method="post">
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" id="showingID" class="form-control" name="showingID" value="{{request.form.showingID}}">
-                    <label for="showingID">Showing ID</label>
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="text" id="showingID" class="form-control" name="showingID" value="{{request.form.showingID}}">
+                        <label for="showingID">Showing ID</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
+                        <label for="movieName">Movie Name</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
+                        <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
+                        <label for="showingRoom">Room</label>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
+                        <label for="showingPrice">Price</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-unique" type="submit">MODIFY</button>
+                    </div>
                 </div>
-                <div class="md-form">
-                    <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
-                    <label for="movieName">Movie Name</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
-                    <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
-                    <label for="showingRoom">Room</label>
-                </div>
-                <div class="md-form">
-                    <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
-                    <label for="showingPrice">Price</label>
-                </div>
-                <div class="text-xs-center">
-                    <button class="btn btn-unique" type="submit">MODIFY</button>
-                </div>
-            </div>
             </form>
         </div>
         <!--/.Content-->

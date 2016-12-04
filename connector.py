@@ -2,13 +2,13 @@ from flask import  Flask
 import mysql.connector
 
 class connector():
-    def __init__(self, user, password, database):
+    def __init__(self, host='localhost', user='root', password='', database=''):
         self.cnx = mysql.connector.connect(user=user, password=password, database=database)
 
-    def get(query, **kwargs):
+    def get(query, data):
         try:
             cursor = self.cnx.cursor(buffered=True)
-            cursor.execute(query, **kwargs)
+            cursor.execute(query, data)
             res = cursor.fetchall()
             self.cnx.commit()
             self.cnx.close()
@@ -16,10 +16,10 @@ class connector():
         except Exception as error:
             return str(error)
 
-    def sqlSetter(query):
+    def set(query, data):
         try:
             cursor = self.cnx.cursor(buffered=True)
-            cursor.execute(query, **kwargs)
+            cursor.execute(query, data)
             self.cnx.commit()
             self.cnx.close()
             return 'success'
