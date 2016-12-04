@@ -124,7 +124,9 @@ def showingPage():
     genres = sqlGetter(query)
     query = ("SELECT DISTINCT ShowingDateTime FROM Showing ORDER BY ShowingDateTime")
     dates = sqlGetter(query)
-    return render_template('showing.html', showings=showings, tag=user, genres=genres, dates=dates)
+    query = ("SELECT idCustomer, FirstName, LastName FROM Customer WHERE NOT (FirstName='Super' AND LastName='User') ")
+    customers = sqlGetter(query)
+    return render_template('showing.html', showings=showings, tag=user, genres=genres, customers=customers, dates=dates)
 
 
 @app.route("/showing/<showingKey>", methods=["POST"])

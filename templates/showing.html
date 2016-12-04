@@ -56,7 +56,7 @@
     <i class="fa fa-search" aria-hidden="true"></i>
     SEARCH</br>
 </span>
-<span class="waves-light" data-toggle="modal" data-target="#modal-attend">
+<span class="waves-light" data-toggle="modal" data-target="#modal-buy">
     <i class="fa fa-check" aria-hidden="true"></i>
     BUY TICKET</br>
 </span>
@@ -85,16 +85,17 @@
             <form action="/showing/search" method="POST">
                 <div class="modal-body">
                     Genre:
-                    <select name="genre">
+                </br></br>
+                <select name="genre">
                        {% for tuple in genres %}
                          {% for genre in tuple %}
                            <option value={{genre}}>{{genre}}</option>
                          {% endfor %}
                        {% endfor %}
                     </select>
-                    </br>
-                    </br>
+                    </br></br>
                     Start Date:
+                    </br></br>
                     <select name="startDate">
                        {% for tuple in dates %}
                          {% for startDate in tuple %}
@@ -102,9 +103,9 @@
                          {% endfor %}
                        {% endfor %}
                     </select>
-                    </br>
-                    </br>
+                    </br></br>
                     End Date:
+                    </br></br>
                     <select name="endDate">
                        {% for tuple in dates %}
                          {% for endDate in tuple %}
@@ -112,8 +113,7 @@
                          {% endfor %}
                        {% endfor %}
                     </select>
-                    </br>
-                    </br>
+                    </br></br>
                     <div class="md-form">
                         <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
                         <label for="movieName">Movie Name</label>
@@ -129,31 +129,35 @@
 </div>
 
 <!-- Modal Buy -->
-<div class="modal fade modal-ext" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade modal-ext" id="modal-buy" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:120px">
         <!--Content-->
         <div class="modal-content" style="color:black">
             <!--Body-->
-            <form action="showing/addShow" method="post">
+            <form action="showing/buyticket" method="post">
                 <div class="modal-body">
-                    <div class="md-form">
-                        <input type="text" id="movieName" class="form-control" name="movieName" value="{{request.form.movieName}}">
-                        <label for="movieName">Movie Name</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="showingTime" class="form-control" name="showingTime" value="{{request.form.showingTime}}">
-                        <label for="showingTime">Date & Time (YYYY-MM-DD HH:MM:SS)</label>
-                    </div>
-                    <div class="md-form">
-                        <input type="text" id="showingRoom" class="form-control" name="showingRoom" value="{{request.form.showingRoom}}">
-                        <label for="showingRoom">Room</label>
-                    </div>
+                    Showing to buy:
+                    <br><br>
+                    <select name="showingtobuy">
+                        {% for show in showings %}
+                           <option value={{show.0}}>{{show.6 + '  ' + show.1|string}}</option>
+                       {% endfor %}
+                    </select>
+                    <br><br>
+                    Buy for:
+                    <br><br>
+                    <select name="showingbuyfor">
+                        {% for customer in customers %}
+                           <option value={{customer.0}}>{{customer.1 + ' ' + customer.2}}</option>
+                       {% endfor %}
+                    </select>
+                    <br><br>
                     <div class="md-form">
                         <input type="text" id="showingPrice" class="form-control" name="showingPrice" value="{{request.form.showingPrice}}">
-                        <label for="showingPrice">Price</label>
+                        <label for="showingPrice">Confirm the price</label>
                     </div>
                     <div class="text-xs-center">
-                        <button class="btn btn-unique" type="submit">ADD</button>
+                        <button class="btn btn-unique" type="submit">BUY</button>
                     </div>
                 </div>
             </form>
