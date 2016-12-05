@@ -24,10 +24,11 @@ def login():
     email = request.form['email']
     name = request.form['user_name']
     query = (
-        "SELECT FirstName, LastName FROM Customer WHERE EmailAddress = '" + email + "'; "
+        "SELECT FirstName, LastName FROM Customer WHERE EmailAddress = %s"
     )
+    data = (email,)
     # change the return stuff to list
-    user_info = list(sum(sqlGetter(query), ()))
+    user_info = list(sum(sqlGetter1(query,data), ()))
     if len(user_info) == 0:
         error = 'Name and Email does not match.'
         return render_template('login.html', error=error, tag=user)
@@ -49,9 +50,10 @@ def register():
     email = request.form['email']
     gender = request.form['gender']
     query = (
-        "insert ignore into Customer values(0, '" + fName + "', '" + lName + "', '" + email + "', '" + gender + "');"
+        "insert ignore into Customer values(0, %s, %s, %s, %s);"
     )
-    sqlSetter(query)
+    data = (fName, lName, email, gender)
+    sqlSetter1(query, data)
     user = fName + ' ' + lName
     return redirect(url_for('userPage', username=user))
 
@@ -62,7 +64,6 @@ def register():
 def moviePage():
     global user
     query = ("SELECT * FROM Movie")
-    print("in")
     movies = sqlGetter(query)
     return render_template('movie.html', movies=movies, tag=user)
 
@@ -103,9 +104,9 @@ def movieEdit():
     mID = request.form['movieID']
     mYear = request.form['relaseYear']
     query = (
-        "UPDATE Movie SET MovieYear=" + mYear + ", MovieName='" +
-            mName + "' WHERE idMovie = '" + mID + "';"
+        "UPDATE Movie SET MovieYear=%s, MovieName=%s WHERE idMovie=%s"
     )
+    data = (mYear, mName, mID)
     sqlSetter(query)
     return redirect(url_for('moviePage',username=mName))
 
@@ -246,8 +247,8 @@ def userPage(username):
     history = sqlGetter1(query, data)
     return render_template('user.html', fullname=user, tag=user, profile=profile, customers=customers, history=history)
 
-@app.route('/<username>/id', methods=["POST"])
-def userSortById(username):
+@app.route('/user/<userKey>', methods=["POST"])
+def userSortById(userKey):
     global user
     nList = user.split(' ')
     data = (nList[0], nList[1])
@@ -261,67 +262,7 @@ def userSortById(username):
         "left outer join Showing s on a.Showing_idShowing=s.idShowing "
         "left outer join Movie m on s.Movie_idMovie=m.idMovie "
         "where FirstName=%s and LastName=%s "
-        "ORDER BY m.idMovie"
-    )
-    history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
-
-@app.route('/<username>/name', methods=["POST"])
-def userSortByMovieName(username):
-    global user
-    nList = user.split(' ')
-    data = (nList[0], nList[1])
-    query = (
-        "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
-    )
-    profile = sqlGetter1(query, data)
-    query = (
-        "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
-        "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
-        "left outer join Showing s on a.Showing_idShowing=s.idShowing "
-        "left outer join Movie m on s.Movie_idMovie=m.idMovie "
-        "where FirstName=%s and LastName=%s "
-        "ORDER BY m.MovieName"
-    )
-    history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
-
-@app.route('/<username>/date', methods=["POST"])
-def userSortByDate(username):
-    global user
-    nList = user.split(' ')
-    data = (nList[0], nList[1])
-    query = (
-        "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
-    )
-    profile = sqlGetter1(query, data)
-    query = (
-        "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
-        "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
-        "left outer join Showing s on a.Showing_idShowing=s.idShowing "
-        "left outer join Movie m on s.Movie_idMovie=m.idMovie "
-        "where FirstName=%s and LastName=%s "
-        "ORDER BY s.ShowingDateTime"
-    )
-    history = sqlGetter1(query, data)
-    return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
-
-@app.route('/<username>/rating', methods=["POST"])
-def userSortByRating(username):
-    global user
-    nList = user.split(' ')
-    data = (nList[0], nList[1])
-    query = (
-        "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
-    )
-    profile = sqlGetter1(query, data)
-    query = (
-        "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
-        "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
-        "left outer join Showing s on a.Showing_idShowing=s.idShowing "
-        "left outer join Movie m on s.Movie_idMovie=m.idMovie "
-        "where FirstName=%s and LastName=%s "
-        "ORDER BY a.Rating"
+        "ORDER BY " + userKey
     )
     history = sqlGetter1(query, data)
     return render_template('user.html', fullname=user, tag=user, profile=profile, history=history)
@@ -357,6 +298,7 @@ def adminAddUser():
     except Exception as error:
         return str(error)
 
+
 @app.route('/admin/removeUser', methods=["POST"])
 def adminRemoveUser():
     try:
@@ -368,6 +310,7 @@ def adminRemoveUser():
     except Exception as error:
         return str(error)
 
+
 @app.route('/admin/editUser', methods=["POST"])
 def adminEditUser():
     try:
@@ -378,6 +321,32 @@ def adminEditUser():
         return redirect(url_for('userPage', username='Super User'))
     except Exception as error:
         return str(error)
+
+
+@app.route('/admin/<adminKey>', methods=["POST"])
+def adminPage(adminKey):
+    global user
+    nList = user.split(' ')
+    data = (nList[0], nList[1])
+    query = (
+        "SELECT * FROM Customer WHERE FirstName=%s AND LastName=%s"
+    )
+    profile = sqlGetter1(query, data)
+    query = (
+        "SELECT * FROM Customer WHERE NOT (FirstName='Super' AND LastName='User')"
+        "order by " + adminKey
+    )
+    customers = sqlGetter(query)
+    query = (
+        "select s.idShowing, m.MovieName, s.ShowingDateTime, a.Rating from "
+        "Customer c left outer join Attend a on c.idCustomer = a.Customer_idCustomer "
+        "left outer join Showing s on a.Showing_idShowing=s.idShowing "
+        "left outer join Movie m on s.Movie_idMovie=m.idMovie "
+        "where FirstName=%s and LastName=%s "
+    )
+    history = sqlGetter1(query, data)
+    return render_template('user.html', fullname=user, tag=user, profile=profile, customers=customers, history=history)
+
 
 ###################################################
 @app.route('/genre')
