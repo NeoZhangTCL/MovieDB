@@ -140,23 +140,52 @@ def showingSortBy(showingKey):
 @app.route('/showing/search', methods=["POST"])
 def showingSearch():
     global user
-    query = (
-        "SELECT * FROM Showing "
-        "LEFT OUTER JOIN Movie "
-        "ON Movie_idMovie = idMovie "
-        "LEFT OUTER JOIN Genre "
-        "ON idMovie = Genre.Movie_idMovie "
-        "WHERE Genre = %s "
-        "AND ShowingDateTime > %s "
-        "AND ShowingDateTime < %s "
-        "AND MovieName like %s"
-    )
-    data = (request.form['genre'], request.form['startDate'], request.form['endDate'], '%' + request.form['movieName'] + '%')
-    showings = sqlGetter1(query, data)
     query = ("SELECT DISTINCT Genre FROM Genre")
     genres = sqlGetter(query)
     query = ("SELECT DISTINCT ShowingDateTime FROM Showing ORDER BY ShowingDateTime")
     dates = sqlGetter(query)
+    query = (
+        "create view temp as select Showing_idShowing 'showID', count(Customer_idCustomer) 'countAttend' "
+        "from Attend a right outer join Showing s on a.Showing_idShowing=s.idShowing "
+        "group by Showing_idShowing;"
+    )
+    sqlSetter(query)
+    checked = 'check' in request.form
+    if checked == True:
+        query = (
+            "SELECT * FROM Showing "
+            "LEFT OUTER JOIN Movie "
+            "ON Movie_idMovie = idMovie "
+            "LEFT OUTER JOIN Genre "
+            "ON idMovie = Genre.Movie_idMovie "
+            "WHERE Genre = %s "
+            "AND ShowingDateTime > %s "
+            "AND ShowingDateTime < %s "
+            "AND MovieName like %s"
+            "AND idShowing NOT IN "
+            "(select idShowing from temp t "
+            "left outer join Showing s "
+            "on t.showID=s.idShowing "
+            "left outer join TheatreRoom th "
+            "on s.TheatreRoom_RoomNumber=th. RoomNumber "
+            "where Capacity<=countAttend)"
+        )
+    else:
+        query = (
+            "SELECT * FROM Showing "
+            "LEFT OUTER JOIN Movie "
+            "ON Movie_idMovie = idMovie "
+            "LEFT OUTER JOIN Genre "
+            "ON idMovie = Genre.Movie_idMovie "
+            "WHERE Genre = %s "
+            "AND ShowingDateTime > %s "
+            "AND ShowingDateTime < %s "
+            "AND MovieName like %s"
+        )
+    data = (request.form['genre'], request.form['startDate'], request.form['endDate'], '%' + request.form['movieName'] + '%')
+    showings = sqlGetter1(query, data)
+    query = ("drop view temp")
+    sqlSetter(query)
     return render_template('showing.html', showings=showings, tag=user, genres=genres, dates=dates)
 
 

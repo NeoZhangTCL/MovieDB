@@ -34,15 +34,15 @@
     </thead>
     <tbody>
         {% for show in showings %}
-        <a href="#">
-            <tr>
-                <td>{{ show.0 }}</td>
-                <td style="text-indent:3em">{{ show.6 }}</td>
-                <td style="text-indent:3em">{{ show.1 }}</td>
-                <td style="text-indent:3em">{{ show.3 }}</td>
-                <td style="text-indent:3em">{{ show.4 }}</td>
-            </tr>
-        </a>
+            <a href="#">
+                <tr>
+                    <td>{{ show.0 }}</td>
+                    <td style="text-indent:3em">{{ show.6 }}</td>
+                    <td style="text-indent:3em">{{ show.1 }}</td>
+                    <td style="text-indent:3em">{{ show.3 }}</td>
+                    <td style="text-indent:3em">{{ show.4 }}</td>
+                </tr>
+            </a>
         {% endfor %}
     </tbody>
 </table>
@@ -143,10 +143,6 @@
                        {% endfor %}
                     </select>
                     <br><br>
-                    <div class="md-form">
-                        <input type="text" id="showingPrice" class="form-control" name="purchasePrice" value="{{request.form.showingPrice}}">
-                        <label for="showingPrice">Confirm the price</label>
-                    </div>
                     <div class="text-xs-center">
                         <button class="btn btn-unique" type="submit">BUY</button>
                     </div>
