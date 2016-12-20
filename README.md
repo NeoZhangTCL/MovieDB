@@ -1,18 +1,32 @@
 # MovieBox
-Simply execute "python3 app.py" to run the website.
-Also in app.py, there exists at the bottom sqlGetter, sqlSetter, sqlGetter1, sqlSetter1 methods which current have:
-user: "root"
-password: "pass"
-database: "MovieTheatre"
 
+##Prerequest
+ * python3
+ * python3-pip: sudo apt install python3-pip
+ * virtualenv: sudo pip3 install virtualenv
+ * mysql-server: sudo apt install mysql-server
+
+##Run
+ 1. activate the virtualenv: sudo ./env/bin/activate
+ 2. install the enviroment: sudo pip3 install -r /path/to/requirements.txt
+ 3. import the db.sql: mysql -u root -p --verbose < /path/to/prject/folder/db.sql
+ 4. execute "python3 app.py" to run the website
+ 5. ctrl+d to quit and deactivate to quite virtualenv
+
+##Note
+ * in app.py, there exists at the bottom sqlGetter, sqlSetter, sqlGetter1, sqlSetter1 methods which current have:<br>
+        user: "root"<br>
+        password: "pass"<br>
+        database: "MovieTheatre"<br>
 They can be changed to the desired value for access to the database.
 
-NOTE: PLEASE REGISTER AN SUPER USER (STAFF) IN THE USER TAB USING THE FOLLOWING ATTRIBUTE:
-First Name: Super
-Last Name: User
-Email: <anything>
-Gender: <anything>
+ * PLEASE REGISTER AN SUPER USER (STAFF) IN THE USER TAB USING THE FOLLOWING ATTRIBUTE:<br>
+        First Name: Super<br>
+        Last Name: User<br>
+        Email: \<anything\><br>
+        Gender: \<anything\><br>
 
+## Meet
 The staff who work at a theatre must be able to:
 
     Movies  
