@@ -21,7 +21,6 @@ louis==2.6.4
 lxml==3.5.0
 Mako==1.0.3
 MarkupSafe==0.23
-mysql-connector-python==2.1.4
 oauthlib==1.0.3
 onboard==1.2.0
 padme==1.1.1
@@ -68,3 +67,4 @@ Werkzeug==0.11.11
 xdiagnose==3.8.4.1
 xkit==0.0.0
 XlsxWriter==0.7.3
+#mysql-connector-python==2.1.4

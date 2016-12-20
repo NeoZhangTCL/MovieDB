@@ -485,7 +485,7 @@ def attendSortBy(attendKey):
 
 ###################################################
 def sqlGetter(query):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     res = cursor.fetchall()
@@ -494,14 +494,14 @@ def sqlGetter(query):
     return res
 
 def sqlSetter(query):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query)
     cnx.commit()
     cnx.close()
 
 def sqlGetter1(query, data=None):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     res = cursor.fetchall()
@@ -510,7 +510,7 @@ def sqlGetter1(query, data=None):
     return res
 
 def sqlSetter1(query, data):
-    cnx = mysql.connector.connect(user='jeremy', password='64337909', database='MovieTheatre')
+    cnx = mysql.connector.connect(user='root', password='pass', database='MovieTheatre')
     cursor = cnx.cursor(buffered=True)
     cursor.execute(query, data)
     cnx.commit()
