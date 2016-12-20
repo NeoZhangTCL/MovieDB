@@ -27,7 +27,7 @@ They can be changed to the desired value for access to the database.
         Email: \<anything\><br>
         Gender: \<anything\><br>
 
-## Meet
+## Features
 The staff who work at a theatre must be able to:
 
     Movies  
