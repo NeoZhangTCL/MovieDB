@@ -5,13 +5,14 @@
  * python3-pip: sudo apt install python3-pip
  * virtualenv: sudo pip3 install virtualenv
  * mysql-server: sudo apt install mysql-server
-
+ 
 ##Run
  1. activate the virtualenv: sudo ./env/bin/activate
  2. install the enviroment: sudo pip3 install -r /path/to/requirements.txt
- 3. import the db.sql: mysql -u root -p --verbose < /path/to/prject/folder/db.sql
- 4. execute "python3 app.py" to run the website
- 5. ctrl+d to quit and deactivate to quite virtualenv
+ 3. download and install manually: mysql-connector-python-py3_version_number from mysql website
+ 4. import the db.sql: mysql -u root -p --verbose < /path/to/prject/folder/db.sql
+ 5. execute "python3 app.py" to run the website
+ 6. ctrl+d to quit and deactivate to quite virtualenv
 
 ##Note
  * in app.py, there exists at the bottom sqlGetter, sqlSetter, sqlGetter1, sqlSetter1 methods which current have:<br>
